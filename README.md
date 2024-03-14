@@ -26,6 +26,20 @@ When you run the script, it will ask you for the following inputs:
 - End page: The page number to stop scraping data at.
 - Save to Excel: Whether you want to save the scraped data to an Excel file. If you enter 'y', it will ask you for a file name and save the data to an Excel file with that name. If you enter 'n', it will print the data to the terminal.
 
+## Demo
+
+### If you choose to save the data to an Excel file
+
+![Save to Excel](/demo%20terminal%20-%20save%20to%20excel.png)
+
+### If you choose to just view the data in the terminal
+
+![Print to Terminal](/demo%20terminal%20-%20just%20viewing.png)
+
+### The Excel file with the scraped data of Page 1
+
+![Excel File](/demo%20of%20excel.png)
+
 ## Data
 
 The script retrieves the following data for each veterinary practice:
