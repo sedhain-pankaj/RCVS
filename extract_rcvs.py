@@ -18,11 +18,15 @@ def get_title(practice):
 
 # get the website URL 
 def get_website_url(soup):
-    # find a div with class practice-contactSection practice-numbers and get the last div inside it
-    website_div = soup.find("div", class_="practice-contactSection practice-numbers").find_all("div")[-1]
-    # check if the div contains an anchor tag with the text "Website"
-    website_href = website_div.find("a", string="Website")
-    return website_href['href'] if website_href else None
+    website_div = soup.find("div", class_="practice-contactSection practice-numbers")
+    # check if this div is defined but empty (edge case detected on page 5 no 7)
+    if website_div and not website_div.find_all("div"):
+        return None
+    website_href = website_div.find_all("div")[-1].find("a", string="Website")
+    if website_href:
+        return website_href["href"]
+    else:
+        return None
 
 
 # get the address
@@ -73,8 +77,10 @@ def main():
     end = int(input("Enter the end page: "))
 
     # ask the user if they want to save the results to a Excel file
+    print()
     save_to_excel = input("Do you want to save the results to an Excel file? (y/n): ").lower().strip()
-    print ("Processing...")
+    print ("Processing... ETA per page is 20 sec. You have selected " + str(end-start+1) + " pages.")
+    print ("Overall ETA is " + str(round(((end-start+1)*20)/60, 2)) + " minutes.")
     data = [] # create an empty list to store the results
 
     # iterate over the pages from start page to end page
