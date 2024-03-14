@@ -1,6 +1,6 @@
 # Extract RCVS Website Data
 
-This Python script is used to scrape data from the RCVS (Royal College of Veterinary Surgeons) [website](https://findavet.rcvs.org.uk/find-a-vet-practice/). It retrieves information about veterinary practices, including the clinic ID, name, website URL, address, and phone number.
+This Python script is used to scrape data from the RCVS (Royal College of Veterinary Surgeons) [website](https://findavet.rcvs.org.uk/find-a-vet-practice/?filter-choice=name&filter-keyword=&filter-searchtype=practice&filter-pss=true&p=1). It retrieves information about veterinary practices, including the clinic ID, name, website URL, address, and phone number in UK.
 
 ## How to Run
 
