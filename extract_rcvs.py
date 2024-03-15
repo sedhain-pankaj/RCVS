@@ -12,7 +12,7 @@ def get_soup(url):
 def get_title(practice):
     # title is the text inside the h2 tag > a tag
     a_tag = practice.find("h2", class_="item-title").find("a")
-    return a_tag.text.strip()
+    return a_tag.text.strip() if a_tag else None
 
 
 # get the website URL 
