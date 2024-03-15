@@ -78,27 +78,8 @@ def process_clinics(practice, practices, page_number, data):
     data.append([clinic_id, name, website_url, address, phone])
 
 
-# main function
-def main():
-    # ask the user for which page to start and end
-    start = int(input("Enter the start page: "))
-    end = int(input("Enter the end page: "))
-
-    data = [] # create an empty list to store the results
-
-    # iterate over the pages from start page to end page
-    for page_number in range(start, end + 1):
-        url = f"https://findavet.rcvs.org.uk/find-a-vet-practice/?filter-choice=&filter-keyword=&filter-searchtype=practice&filter-pss=true&p={page_number}"
-        soup = get_soup(url) # call the get_soup function
-
-        # find all divs with class 'practice'
-        practices = soup.find_all("div", class_="practice")
-
-        # iterate over all practices for the current page
-        for practice in practices:
-            process_clinics(practice, practices, page_number, data)
-
-    # ask if the user wants to save the results to an CSV file
+# ask if the user wants to save the results to an CSV file
+def save_to_CSV(data):
     print()
     save_to_CSV = input("Do you want to save the results to an CSV file? (y/n): ").lower().strip()
 
@@ -126,6 +107,30 @@ def main():
                 writer.writerow(row)
 
         print(f"Results saved to {file_name}") # print a message
+
+
+# main function
+def main():
+    # ask the user for which page to start and end
+    start = int(input("Enter the start page: "))
+    end = int(input("Enter the end page: "))
+
+    data = [] # create an empty list to store the results
+
+    # iterate over the pages from start page to end page
+    for page_number in range(start, end + 1):
+        url = f"https://findavet.rcvs.org.uk/find-a-vet-practice/?filter-choice=&filter-keyword=&filter-searchtype=practice&filter-pss=true&p={page_number}"
+        soup = get_soup(url) # call the get_soup function
+
+        # find all divs with class 'practice'
+        practices = soup.find_all("div", class_="practice")
+
+        # iterate over all practices for the current page
+        for practice in practices:
+            process_clinics(practice, practices, page_number, data)
+
+    # call the save_to_CSV function
+    save_to_CSV(data)
 
 
 # run the main function if called from the command line
