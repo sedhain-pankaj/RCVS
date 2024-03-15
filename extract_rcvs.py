@@ -1,7 +1,6 @@
 import requests # to make HTTP requests
 from bs4 import BeautifulSoup # to parse HTML
-import pandas as pd # to create a dataframe
-
+import csv # to write to CSV
 
 # read the HTML from the URL and pass on to BeautifulSoup
 def get_soup(url):
@@ -54,17 +53,26 @@ def get_contact(practice):
 
 # process the clinic details for each page
 def process_clinics(practice, practices, page_number, data):
+    print()
+
     # Clinic ID (page number, iteration of the loop + 1)
     clinic_id = f"Page {page_number} No {practices.index(practice) + 1}"
+    print(f"Clinic ID: {clinic_id}")
+
     name = get_title(practice) # get the title of the practice
+    print(f"Name: {name}")
 
     # get the link to the practice and prepend the base URL if href is a relative URL
     link = 'https://findavet.rcvs.org.uk' + practice.find("h2", class_="item-title").find("a")["href"]
     soup = get_soup(link)
     website_url = get_website_url(soup) # get the website URL
+    print(f"Website: {website_url}")
 
     address = get_address(practice) # get the address
+    print(f"Address: {address}")
+
     phone = get_contact(practice) # get the contact details
+    print(f"Phone: {phone}")
 
     # append the details to the data list
     data.append([clinic_id, name, website_url, address, phone])
@@ -76,11 +84,6 @@ def main():
     start = int(input("Enter the start page: "))
     end = int(input("Enter the end page: "))
 
-    # ask the user if they want to save the results to a Excel file
-    print()
-    save_to_excel = input("Do you want to save the results to an Excel file? (y/n): ").lower().strip()
-    print ("Processing... ETA per page is 20 sec. You have selected " + str(end-start+1) + " pages.")
-    print ("Overall ETA is " + str(round(((end-start+1)*20)/60, 2)) + " minutes.")
     data = [] # create an empty list to store the results
 
     # iterate over the pages from start page to end page
@@ -95,17 +98,34 @@ def main():
         for practice in practices:
             process_clinics(practice, practices, page_number, data)
 
-    # if the user wants to save the results to an Excel file
-    if save_to_excel == "y":
+    # ask if the user wants to save the results to an CSV file
+    print()
+    save_to_CSV = input("Do you want to save the results to an CSV file? (y/n): ").lower().strip()
+
+    if save_to_CSV == "y":
         file_name = input("Enter the file name: ") # ask the user for the file name
-        if not file_name.endswith(".xlsx"):
-            file_name += ".xlsx"
-        # create a dataframe from the data list
-        df = pd.DataFrame(data, columns=["Clinic ID", "Name", "Website URL", "Address", "Phone"])
-        df.to_excel(file_name, index=False)
+        if not file_name.endswith(".csv"): 
+            file_name += ".csv"
+        
+        # check if the file already exists and confirm overwrite
+        try:
+            with open(file_name, "x") as file:
+                pass
+        except FileExistsError:
+            overwrite = input(f"{file_name} already exists. Do you want to overwrite it? (y/n): ").lower().strip()
+            if overwrite == "y":
+                print(f"Overwriting {file_name}...")
+            elif overwrite == "n":
+                print("Exiting without saving...")
+                return
+
+        with open(file_name, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Clinic ID", "Name", "Website", "Address", "Phone"])
+            for row in data:
+                writer.writerow(row)
+
         print(f"Results saved to {file_name}") # print a message
-    elif save_to_excel == "n":
-        print (pd.DataFrame(data, columns=["Clinic ID", "Name", "Website URL", "Address", "Phone"])) # print the results
 
 
 # run the main function if called from the command line
