@@ -9,7 +9,7 @@ This Python script is used to scrape data from the RCVS (Royal College of Veteri
 2. Install the required Python libraries by running the following command in your terminal:
 
 ```bash
-pip install requests beautifulsoup4 pandas openpyxl
+pip install requests beautifulsoup4
 ```
 
 3. Run the script by typing the following command in your terminal:
@@ -24,21 +24,21 @@ When you run the script, it will ask you for the following inputs:
 
 - Start page: The page number to start scraping data from.
 - End page: The page number to stop scraping data at.
-- Save to Excel: Whether you want to save the scraped data to an Excel file. If you enter 'y', it will ask you for a file name and save the data to an Excel file with that name. If you enter 'n', it will print the data to the terminal.
+- Save to CSV: Press `y` if you want to save the data to a CSV. You will be prompted to enter the name of the CSV file. It will ask for overwrite confirmation if the file already exists.
 
 ## Demo
 
-### If you choose to save the data to an Excel file
+### You will see the data in the terminal indicating the progress of the process
 
-![Save to Excel](/demo%20terminal%20-%20save%20to%20excel.png)
+![View in Terminal](demo_images/terminal_viewing.png)
 
-### If you choose to just view the data in the terminal
+### You'll be prompted to save the data to a CSV file
 
-![Print to Terminal](/demo%20terminal%20-%20just%20viewing.png)
+![Save to CSV](demo_images/terminal_CSV.png)
 
-### The Excel file with the scraped data of Page 1
+### The CSV file will be saved in the same directory as the script
 
-![Excel File](/demo%20of%20excel.png)
+![CSV File](demo_images/csv_demo.png)
 
 ## Data
 
@@ -50,4 +50,4 @@ The script retrieves the following data for each veterinary practice:
 - Address: The address of the clinic.
 - Phone: The phone number of the clinic.
 
-The data is either printed to the terminal or saved to an Excel file, depending on your input.
+The data can be viewed in terminal and saved to a CSV file, depending on your input.
