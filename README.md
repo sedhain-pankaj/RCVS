@@ -28,13 +28,9 @@ When you run the script, it will ask you for the following inputs:
 
 ## Demo
 
-### You will see the data in the terminal indicating the progress of the process
+### You can save the data to a CSV file or just view it in terminal
 
-![View in Terminal](demo_images/terminal_viewing.png)
-
-### You'll be prompted to save the data to a CSV file
-
-![Save to CSV](demo_images/terminal_CSV.png)
+![Terminal](demo_images/terminal.png)
 
 ### The CSV file will be saved in the same directory as the script
 
