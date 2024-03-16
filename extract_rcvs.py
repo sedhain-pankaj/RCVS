@@ -4,8 +4,9 @@ from bs4 import BeautifulSoup  # to parse HTML
 import csv  # to write to CSV
 
 
-# constants for the base URL
+# constants for the base URL and the clinic details
 BASE_URL = "https://findavet.rcvs.org.uk"
+CLINIC_DETAILS = ["Clinic ID", "Name", "Website", "Address", "Phone"]
 
 
 # read the HTML from the URL and pass on to BeautifulSoup
@@ -25,7 +26,7 @@ def get_title(practice):
     return a_tag.text.strip() if a_tag else None
 
 
-# get the website URL
+# get the website URL embedded in the practice page
 def get_website_url(soup):
     website_div = soup.find("div", class_="practice-contactSection practice-numbers")
     # check if this div is defined but empty (edge case detected on page 5 no 7)
@@ -64,33 +65,43 @@ def get_contact(practice):
 
 
 # iterate over all practices for the current page
-def process_clinics(practices, page_number, data):
+def process_clinics(practices, page_number, file_name):
     for index, practice in enumerate(practices):
         # Clinic ID (page number, iteration of the loop + 1)
         clinic_id = f"Page {page_number} No {index + 1}"
-        print(f"\nClinic ID: {clinic_id}")
 
         name = get_title(practice)  # get the title of the practice
-        print(f"Name: {name}")
 
         # get the link to the practice and prepend the base URL if href is a relative URL
         link = BASE_URL + practice.find("h2", class_="item-title").find("a")["href"]
         soup = get_soup(link)
         website_url = get_website_url(soup)  # get the website URL
-        print(f"Website: {website_url}")
 
         address = get_address(practice)  # get the address
-        print(f"Address: {address}")
 
         phone = get_contact(practice)  # get the contact details
-        print(f"Phone: {phone}")
+
+        # print the details to the console
+        print()  # add a new line
+        print(f"{CLINIC_DETAILS[0]}: {clinic_id}")
+        print(f"{CLINIC_DETAILS[1]}: {name}")
+        print(f"{CLINIC_DETAILS[2]}: {website_url}")
+        print(f"{CLINIC_DETAILS[3]}: {address}")
+        print(f"{CLINIC_DETAILS[4]}: {phone}")
 
         # append the details to the data list
-        data.append([clinic_id, name, website_url, address, phone])
+        data = [clinic_id, name, website_url, address, phone]
+
+        # write the data to the CSV file
+        if file_name:
+            with open(file_name, "a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(data)
 
 
-# ask if the user wants to save the results to an CSV file
-def save_to_CSV(data):
+# ask the user if they want to save the results to a CSV file
+def save_To_CSV():
+    file_name = None  # initialize file_name to None
     save_to_CSV = (
         input("\nDo you want to save the results to an CSV file? (y/n): ")
         .lower()
@@ -122,11 +133,9 @@ def save_to_CSV(data):
 
         with open(file_name, "w", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow(["Clinic ID", "Name", "Website", "Address", "Phone"])
-            for row in data:
-                writer.writerow(row)
+            writer.writerow(CLINIC_DETAILS)  # write the header row to the CSV file
 
-        print(f"\nResults saved to {file_name}")  # print a message
+    return file_name
 
 
 # main function
@@ -142,7 +151,8 @@ def main():
         )
         return
 
-    data = []  # create an empty list to store the results
+    # call the save_To_CSV function and store the file name
+    file_name = save_To_CSV()
 
     # iterate over the pages from start page to end page
     for page_number in range(start, end + 1):
@@ -155,10 +165,13 @@ def main():
         practices = soup.find_all("div", class_="practice")
 
         # process the clinic details for each page
-        process_clinics(practices, page_number, data)
+        process_clinics(practices, page_number, file_name)
 
-    # call the save_to_CSV function
-    save_to_CSV(data)
+    # print a message depending on whether the results were saved to a CSV file
+    if file_name:
+        print(f"\nTask completed. Results saved to {file_name}.")
+    else:
+        print("\nTask completed. Only viewing results. Save to CSV was not requested.")
 
 
 # run the main function if called from the command line
