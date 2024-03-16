@@ -1,6 +1,6 @@
 # Extract RCVS Website Data
 
-This Python script is used to scrape data from the RCVS (Royal College of Veterinary Surgeons) <a href="https://findavet.rcvs.org.uk/find-a-vet-practice/?filter-choice=name&filter-keyword=&filter-searchtype=practice&filter-pss=true&p=1" target="_blank">website</a>. It retrieves information about veterinary practices, including the clinic ID, name, website URL, address, and phone number in UK.
+This Python script is used to extract data from the RCVS (Royal College of Veterinary Surgeons) <a href="https://findavet.rcvs.org.uk/find-a-vet-practice/?filter-choice=name&filter-keyword=&filter-searchtype=practice&filter-pss=true&p=1" target="_blank">website</a>. It retrieves information about veterinary practices, including the clinic ID, name, website URL, address, and phone number in UK.
 
 ## How to Run
 
@@ -22,9 +22,9 @@ python extract_rcvs.py
 
 When you run the script, it will ask you for the following inputs:
 
-- Start page: The page number to start scraping data from.
-- End page: The page number to stop scraping data at.
-- Save to CSV: Press `y` if you want to save the data to a CSV. You will be prompted to enter the name of the CSV file. It will ask for overwrite confirmation if the file already exists.
+- `Start page`: The page number to start collecting data from.
+- `End page`: The page number to stop collecting data at.
+- `Save to CSV`: Press `y` if you want to save the data to a CSV. You will be prompted to enter the name of the CSV file. It will ask for overwrite confirmation if the file already exists.
 
 ## Demo
 
