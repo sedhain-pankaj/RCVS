@@ -1,7 +1,7 @@
 from utils.pages_to_parse import pages_to_parse  # to get the start and end page numbers
 from utils.save_to_csv import save_to_csv  # to save the results to a CSV file
-from utils.constants import BASE_URL  # to get the base URL and clinic details
-from utils.view_save_clinics_details import process_clinics  # to process the clinic details
+from utils.constants import BASE_URL  # to get the base URL
+from utils.print_clinics_details import process_clinics  # to process the clinic details
 from utils.url_parser_bs4 import get_parsed_URL  # to get the parsed URL
 
 
